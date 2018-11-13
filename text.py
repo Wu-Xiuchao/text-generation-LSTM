@@ -2,7 +2,7 @@ import numpy as np
 import pickle
 
 """
-这是一个文本类，只需传入文本text
+这是一个文本类，只需传入文本text,当然也可以指定max_vocab
 功能包括：
 1、获取字典长度
 2、把文本转为数组
@@ -15,16 +15,12 @@ class Text(object):
 		"""
 		取出现次数高的前max_vocab个word
 		"""
-		vocab_count = {word:0 for word in vocab}
-		for word in vocab:
-			vocab_count[word] += 1
+		vocab_count = {word:text.count(word) for word in vocab}
 		vocab_count = sorted(vocab_count.items(),key=lambda x:x[1], reverse=True)
 		vocab_count = vocab_count[:max_vocab] # 在这里保证字数不超过max_vocab
 
-		vocab = [x[0] for x in vocab_count] # 更新vocab
-
-		self.vocab = vocab # 通过下标可以查找对应的字
-		self.word_to_index = {c:i for i,c in enumerate(vocab)} # 通过字查找对应的下标
+		self.vocab = [x[0] for x in vocab_count] # 通过下标可以查找对应的字
+		self.word_to_index = {c:i for i,c in enumerate(self.vocab)} # 通过字查找对应的下标
 
 	@property
 	def vocab_size(self):
