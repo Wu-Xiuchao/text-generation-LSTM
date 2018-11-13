@@ -32,7 +32,7 @@ class Text(object):
 
 	# 把文本转为数组
 	def text_to_arr(self,text):
-		return np.array([self.word_to_index[word] if word in self.word_to_index else len(vocab) for word in text])
+		return np.array([self.word_to_index[word] if word in self.word_to_index else len(self.vocab) for word in text])
 
 	# 把数组转为文本
 	def arr_to_text(self,arr):
