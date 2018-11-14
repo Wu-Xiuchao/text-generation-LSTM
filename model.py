@@ -56,7 +56,7 @@ class RNN(object):
 		with tf.name_scope('lstm'):
 			cells = tf.nn.rnn_cell.MultiRNNCell([create_single_cell(self.num_units,self.keep_prob) for _ in range(self.layers)])
 			self.initial_state = cells.zero_state(self.batch_size,tf.float32)
-			# 通过lstm_outputs得到概率 (tf.concat)
+			# 通过lstm_outputs得到概率
 			"""
 			lstm_output: 包含RNN小区在每个时刻的输出。
 			final_state包含处理完所有输入后的RNN状态。
@@ -124,6 +124,7 @@ class RNN(object):
 	生成文字
 	n_samples 是生成的字数
 	vocab_size 是字典总字数
+	整体思路是通过上一个字符来确定下一个字符
 	"""
 	def sample(self, n_samples, vocab_size):
 		samples = [] # 建立一个空的数组
@@ -134,6 +135,7 @@ class RNN(object):
 		for i in range(n_samples):
 			x = np.zeros((1,1))
 			x[0,0] = c
+			# 在网络初始化中有sample参数，可以改变inputs.shape,所以这里的inputs.shape = [1,1]
 			feed = {self.inputs:x,self.keep_prob:1.,self.initial_state:new_state}
 			preds, new_state = sess.run([self.prediction,self.final_state],feed_dict=feed)
 
