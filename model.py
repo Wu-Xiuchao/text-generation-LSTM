@@ -58,10 +58,10 @@ class RNN(object):
 			self.initial_state = cells.zero_state(self.batch_size,tf.float32)
 			# 通过lstm_outputs得到概率 (tf.concat)
 			"""
-    		lstm_output: 包含RNN小区在每个时刻的输出。
+			lstm_output: 包含RNN小区在每个时刻的输出。
 			final_state包含处理完所有输入后的RNN状态。
 			请注意，与lstm_output不同，此信息不包含有关每个时间步的信息，而只包含最后一个信息（即最后一个之后的状态）。
-    		"""
+			"""
 			#在时间维度上展开cell，即建立循环网络 lstem_output.shape = [batch_size * num_units]
 			self.lstm_outputs, self.final_state = tf.nn.dynamic_rnn(cells, self.lstm_inputs,initial_state=self.initial_state)
 
