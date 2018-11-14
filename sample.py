@@ -13,7 +13,7 @@ tf.flags.DEFINE_string('converter_path', '', 'model/name/converter.pkl')
 tf.flags.DEFINE_string('checkpoint_path', '', 'checkpoint path')
 tf.flags.DEFINE_integer('max_length', 30, '生成文本的长度')
 
-def main():
+def main(_):
 	converter = Text(filename=FLAGS.converter_path)
 	if os.path.isdir(FLAGS.checkpoint_path):
 		FLAGS.checkpoint_path = tf.train.latest_checkpoint(FLAGS.checkpoint_path)

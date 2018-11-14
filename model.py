@@ -6,34 +6,34 @@ import function
 class RNN(object):
 	def __init__(self,features,batch_size = 64, max_time = 50, num_units = 128, layers = 2, learning_rate = 0.001,
 		grad_clip = 5, sample = False, train_keep_prob = 0.5, use_embedding = False, embedding_size = 128):
-	if sample is True: 
-		batch_size = 1; max_time = 1
+		if sample is True: 
+			batch_size = 1; max_time = 1
+			
+		self.features = features # 特征维度
+		self.batch_size = batch_size # 批数量
+		self.max_time = max_time # 序列长度
+		self.num_units = num_units # 隐藏神经元参数个数
+		self.layers = layers # cell层数
+		self.learning_rate = learning_rate # 学习率
+		self.grad_clip = grad_clip # 梯度范围
+		self.train_keep_prob = train_keep_prob # 保持率
+		self.use_embedding = use_embedding # 是否使用嵌入
+		self.embedding_size = embedding_size # 嵌入映射大小
 
-	self.features = features # 特征维度
-	self.batch_size = batch_size # 批数量
-	self.max_time = max_time # 序列长度
-	self.num_units = num_units # 隐藏神经元参数个数
-	self.layers = layers # cell层数
-	self.learning_rate = learning_rate # 学习率
-	self.grad_clip = grad_clip # 梯度范围
-	self.train_keep_prob = train_keep_prob # 保持率
-	self.use_embedding = use_embedding # 是否使用嵌入
-	self.embedding_size = embedding_size # 嵌入映射大小
-
-	tf.reset_default_graph() # 重置图
-	self.build_inputs()
-	self.build_lstm()
-	self.build_loss()
-	self.build_opt()
-	self.saver = tf.train.Saver()
+		tf.reset_default_graph() # 重置图
+		self.build_inputs()
+		self.build_lstm()
+		self.build_loss()
+		self.build_opt()
+		self.saver = tf.train.Saver()
     
-    """
-    输入层 
-    1.原始输入
-    2.label输入
-    3.保持率
-    4.lstm的输入
-    """
+	"""
+	输入层 
+	1.原始输入
+	2.label输入
+	3.保持率
+	4.lstm的输入
+	"""
 	def build_inputs(self):
 		with tf.name_scope('inputs'):
 			self.inputs = tf.placeholder(tf.int32, shape=(self.batch_size,self.max_time), name='inputs')
@@ -108,7 +108,7 @@ class RNN(object):
 	def train(self, batch_generator, max_steps, save_path):
 		self.session = tf.Session()
 		with self.session as sess:
-			sess.run(tf.global_variable_initializer()) #初始化全局变量
+			sess.run(tf.global_variables_initializer()) #初始化全局变量
 			new_state = sess.run(self.initial_state)
 			step = 0
 			for x,y in batch_generator:

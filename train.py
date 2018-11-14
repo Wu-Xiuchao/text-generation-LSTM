@@ -19,10 +19,10 @@ tf.flags.DEFINE_string('input_file','','训练的文件')
 tf.flags.DEFINE_integer('max_steps',10000,'迭代次数')
 tf.flags.DEFINE_integer('max_vocab',3500,'字典容量')
 
-def main():
+def main(_):
 	model_path = os.path.join('model',FLAGS.name) #建立模型地址
 	if os.path.exists(model_path) is False:
-        os.makedirs(model_path) #若模型地址不存在，递归建立文件
+		os.makedirs(model_path) #若模型地址不存在，递归建立文件
 	with open(FLAGS.input_file,'r',encoding='utf-8') as file:
 		text = file.read() 
 	converter = Text(text,FLAGS.max_vocab)
