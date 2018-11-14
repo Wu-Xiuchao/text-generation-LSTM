@@ -1,6 +1,7 @@
 import tensorflow  as tf 
 import numpy as np
 import os
+import function
 
 class RNN(object):
 	def __init__(self,features,batch_size = 64, max_time = 50, num_units = 128, layers = 2, learning_rate = 0.001,
@@ -119,8 +120,30 @@ class RNN(object):
 				if step >= max_steps:
 					break
 			self.saver.save(sess,os.path.join(save_path,'model'),global_step=step)
+	"""
+	生成文字
+	n_samples 是生成的字数
+	vocab_size 是字典总字数
+	"""
+	def sample(self, n_samples, vocab_size):
+		samples = [] # 建立一个空的数组
+		sess = self.session
+		new_state = sess.run(self.initial_state) #初始化初始状态
+		preds = np.ones((vocab_size,)) #建立长度为vocab_size的一维向量
+		c = function.pick_top_n(preds, vocab_size)
+		for i in range(n_samples):
+			x = np.zeros((1,1))
+			x[0,0] = c
+			feed = {self.inputs:x,self.keep_prob:1.,self.initial_state:new_state}
+			preds, new_state = sess.run([self.prediction,self.final_state],feed_dict=feed)
 
-	# def sample(self, n_samples, prime, vocab_size):
+			c = function.pick_top_n(preds, vocab_size)
+			samples.append(c)
+		return np.array(samples)
 
-
-
+	"""
+	加载模型
+	"""
+	def load(self, checkpoint):
+		self.session = tf.Session()
+		self.saver.restore(self.session,checkpoint)
