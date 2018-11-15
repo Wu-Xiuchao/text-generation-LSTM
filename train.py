@@ -42,4 +42,4 @@ def main(_):
 	model.train(g,FLAGS.max_steps,model_path) #训练 
 
 if __name__ == '__main__':
-	tf.app.run()
+	tf.app.run() # 读取参数，再跑main,注意main需要一个参数

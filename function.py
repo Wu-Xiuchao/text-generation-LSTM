@@ -35,5 +35,6 @@ def batch_generator(arr, n_seqs, n_steps):
         for n in range(0,arr.shape[1], n_steps):
             x = arr[:, n:n+ n_steps]
             y = np.zeros_like(x)
+            #这行代码的意思是，假设一个字x，它后面的那个字就是y。就是说y是x的目标.
             y[:,:-1],y[:,-1] = x[:, 1:],x[:,0] # y 获取 x 的值，但是 x的开头需要放到最后再赋值给y
             yield x, y
