@@ -1,4 +1,4 @@
-# text-generation-LSTM (Updating...)
+# text-generation-LSTM 
 --------------------------
 ![LSTM示意图](https://github.com/Wu-Xiuchao/text-generation-LSTM/blob/master/picture/lstm.png)
 LSTM网络主要有遗忘门，更新门和输出门三个部分.  
